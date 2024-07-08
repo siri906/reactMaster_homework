@@ -1,6 +1,12 @@
 import { atom } from "recoil";
 
-export const isDarkAtom = atom({
-  key: "isDark",
-  default: true,
+interface ICountry {
+  id: number;
+  text: string;
+  category: "stay" | "Go" | "Like";
+}
+
+export const countryState = atom<ICountry[]>({
+  key: "CountryList",
+  default: [],
 });
