@@ -9,10 +9,19 @@ export interface ICountry {
 export const countryState = atom<ICountry[]>({
   key: "CountryList",
   default: [],
+  effects: [
+    ({ setSelf, onSet }) => {
+      const savedData = localStorage.getItem("countryInfo");
+      if (savedData) setSelf(JSON.parse(savedData));
+      onSet((newValue, _, isReset) => {
+        isReset ? localStorage.removeItem("countryInfo") : localStorage.setItem("countryInfo", JSON.stringify(newValue));
+      });
+    },
+  ],
 });
 
-export const countrySelectro = selector({
-  key: "CountrySelector",
+export const countrySelector = selector({
+  key: "CountrySelectorList",
   get: ({ get }) => {
     const countryList = get(countryState);
     // stay, go, like

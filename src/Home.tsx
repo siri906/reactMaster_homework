@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useRecoilState } from "recoil";
-import { countryState, ICountry } from "./atom";
-import { MouseEventHandler, ReactElement } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { countrySelector, countryState, ICountry } from "./atom";
+import { useEffect } from "react";
 
 const Box = styled.div`
   display: flex;
@@ -53,6 +53,7 @@ export default function Home() {
     formState: { errors },
   } = useForm<IFormData>();
   const [countryInfo, setCountryInfo] = useRecoilState(countryState);
+  const [countryStay, countryGo, countryLike] = useRecoilValue(countrySelector);
   const onSubmit = (data: IFormData) => {
     setCountryInfo((prev) => [{ text: data.country, id: Date.now(), category: "stay" }, ...prev]);
   };
@@ -63,21 +64,28 @@ export default function Home() {
     } = event;
 
     if (name === "del") {
-      const newList = countryInfo.filter((country) => country.id !== item.id);
-      setCountryInfo(newList);
-    } else if (name === "ok") {
-      // const newObj = {
-      //   id: item.id,
-      //   text: item.text,
-      //   category: "Go",
-      // };
-      //넌.. 왜 안돼?
-      // setCountryInfo((prev) => [ newObj , ...prev]);
-      setCountryInfo((prev) => [{ text: item.text, id: item.id, category: "Go" }]);
+      setCountryInfo((prev) => prev.filter((country) => country.id !== item.id));
+    } else if (name === "back") {
+      const newList: ICountry = { text: item.text, id: item.id, category: "stay" };
+      setCountryInfo((prev) => {
+        const targetIdx = prev.findIndex((country) => country.id === item.id);
+        return [...prev.slice(0, targetIdx), newList, ...prev.slice(targetIdx + 1)];
+      });
+    } else if (name === "ok" || name === "back_done") {
+      const newList: ICountry = { text: item.text, id: item.id, category: "Go" };
+      setCountryInfo((prev) => {
+        const targetIdx = prev.findIndex((country) => country.id === item.id);
+        return [...prev.slice(0, targetIdx), newList, ...prev.slice(targetIdx + 1)];
+      });
+    } else if (name === "like") {
+      const newList: ICountry = { text: item.text, id: item.id, category: "Like" };
+      setCountryInfo((prev) => {
+        const targetIdx = prev.findIndex((country) => country.id === item.id);
+        return [...prev.slice(0, targetIdx), newList, ...prev.slice(targetIdx + 1)];
+      });
     }
   };
 
-  console.log(countryInfo, "countryInfo");
   return (
     <Box>
       <h1>내가 가고 싶은 나라들</h1>
@@ -100,126 +108,114 @@ export default function Home() {
       </div>
       <div>
         <h2>입력한 나라</h2>
-        {countryInfo
-          .filter((item) => item.category === "stay")
-          .map((item, idx) => {
-            return (
-              <div key={idx}>
-                {item.text}
-                {item.category === "stay" && (
-                  <>
-                    <button name="ok" onClick={(event) => onClickFn(event, item)}>
-                      ok
-                    </button>
-                    <button name="del" onClick={(event) => onClickFn(event, item)}>
-                      삭제
-                    </button>
-                  </>
-                )}
-
-                {item.category === "Go" && (
-                  <>
-                    <button name="like" onClick={(event) => onClickFn(event, item)}>
-                      go 좋아하는 나라
-                    </button>
-                    <button name="back" onClick={(event) => onClickFn(event, item)}>
-                      go 입력한 나라
-                    </button>
-                  </>
-                )}
-
-                {item.category === "Like" && (
-                  <>
-                    <button name="back_done" onClick={(event) => onClickFn(event, item)}>
-                      go 가본 나라
-                    </button>
-                  </>
-                )}
-              </div>
-            );
-          })}
+        {countryStay.map((item) => {
+          return (
+            <div key={item.id}>
+              <span>{item.text}</span>
+              {item.category === "stay" && (
+                <>
+                  <button name="ok" onClick={(event) => onClickFn(event, item)}>
+                    Stay
+                  </button>
+                  <button name="del" onClick={(event) => onClickFn(event, item)}>
+                    del
+                  </button>
+                </>
+              )}
+              {item.category === "Go" && (
+                <>
+                  <button name="like" onClick={(event) => onClickFn(event, item)}>
+                    go 좋아하는 나라
+                  </button>
+                  <button name="back" onClick={(event) => onClickFn(event, item)}>
+                    go 입력한 나라
+                  </button>
+                </>
+              )}
+              {item.category === "Like" && (
+                <>
+                  <button name="back_done" onClick={(event) => onClickFn(event, item)}>
+                    Like 가본 나라
+                  </button>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
       <div>
         <h2>내가 가본 나라들</h2>
-        {countryInfo
-          .filter((item) => item.category === "Go")
-          .map((item, idx) => {
-            return (
-              <div key={idx}>
-                {item.text}
-                {item.category === "stay" && (
-                  <>
-                    <button name="ok" onClick={(event) => onClickFn(event, item)}>
-                      ok
-                    </button>
-                    <button name="del" onClick={(event) => onClickFn(event, item)}>
-                      삭제
-                    </button>
-                  </>
-                )}
-
-                {item.category === "Go" && (
-                  <>
-                    <button name="like" onClick={(event) => onClickFn(event, item)}>
-                      go 좋아하는 나라
-                    </button>
-                    <button name="back" onClick={(event) => onClickFn(event, item)}>
-                      go 입력한 나라
-                    </button>
-                  </>
-                )}
-
-                {item.category === "Like" && (
-                  <>
-                    <button name="back_done" onClick={(event) => onClickFn(event, item)}>
-                      go 가본 나라
-                    </button>
-                  </>
-                )}
-              </div>
-            );
-          })}
+        {countryGo.map((item) => {
+          return (
+            <div key={item.id}>
+              <div>{item.text}</div>
+              {item.category === "stay" && (
+                <>
+                  <button name="ok" onClick={(event) => onClickFn(event, item)}>
+                    ok
+                  </button>
+                  <button name="del" onClick={(event) => onClickFn(event, item)}>
+                    삭제
+                  </button>
+                </>
+              )}
+              {item.category === "Go" && (
+                <>
+                  <button name="like" onClick={(event) => onClickFn(event, item)}>
+                    go 좋아하는 나라
+                  </button>
+                  <button name="back" onClick={(event) => onClickFn(event, item)}>
+                    go 입력한 나라
+                  </button>
+                </>
+              )}
+              {item.category === "Like" && (
+                <>
+                  <button name="back_done" onClick={(event) => onClickFn(event, item)}>
+                    go 가본 나라
+                  </button>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
       <div>
         <h2>내가 좋아하는 나라들</h2>
-        {countryInfo
-          .filter((item) => item.category === "Like")
-          .map((item, idx) => {
-            return (
-              <div key={idx}>
-                {item.text}
-                {item.category === "stay" && (
-                  <>
-                    <button name="ok" onClick={(event) => onClickFn(event, item)}>
-                      ok
-                    </button>
-                    <button name="del" onClick={(event) => onClickFn(event, item)}>
-                      삭제
-                    </button>
-                  </>
-                )}
-
-                {item.category === "Go" && (
-                  <>
-                    <button name="like" onClick={(event) => onClickFn(event, item)}>
-                      go 좋아하는 나라
-                    </button>
-                    <button name="back" onClick={(event) => onClickFn(event, item)}>
-                      go 입력한 나라
-                    </button>
-                  </>
-                )}
-
-                {item.category === "Like" && (
-                  <>
-                    <button name="back_done" onClick={(event) => onClickFn(event, item)}>
-                      go 가본 나라
-                    </button>
-                  </>
-                )}
-              </div>
-            );
-          })}
+        {countryLike.map((item) => {
+          return (
+            <div key={item.id}>
+              <div>{item.text}</div>
+              {item.category === "stay" && (
+                <>
+                  <button name="ok" onClick={(event) => onClickFn(event, item)}>
+                    ok
+                  </button>
+                  <button name="del" onClick={(event) => onClickFn(event, item)}>
+                    삭제
+                  </button>
+                </>
+              )}
+              {item.category === "Go" && (
+                <>
+                  <button name="like" onClick={(event) => onClickFn(event, item)}>
+                    go 좋아하는 나라
+                  </button>
+                  <button name="back" onClick={(event) => onClickFn(event, item)}>
+                    go 입력한 나라
+                  </button>
+                </>
+              )}
+              {item.category === "Like" && (
+                <>
+                  <button name="back_done" onClick={(event) => onClickFn(event, item)}>
+                    go 가본 나라
+                  </button>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </Box>
   );
