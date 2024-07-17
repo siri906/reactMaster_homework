@@ -1,3 +1,3 @@
 export default function PlayingPage() {
-  return <div></div>;
+  return <div>play</div>;
 }

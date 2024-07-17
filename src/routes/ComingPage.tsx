@@ -1,3 +1,3 @@
 export default function ComingPage() {
-  return <div></div>;
+  return <div>vp,∂</div>;
 }
