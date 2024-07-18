@@ -1,3 +1,5 @@
+import MovieList from "../components/MovieList";
+
 export default function ComingPage() {
-  return <div>vp,∂</div>;
+  return <MovieList path={"coming-soonㄴ"} />;
 }
