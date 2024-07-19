@@ -10,9 +10,12 @@ export default function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/now-playing/:movieId" element={<PlayingPage />} />
+          <Route path="/now-playing" element={<PlayingPage />} />
+          <Route path="/coming-soon/:movieId" element={<ComingPage />} />
           <Route path="/coming-soon" element={<ComingPage />} />
-          <Route path="/now-playing" element={<PlayingPage />}></Route>
+          <Route path="/:movieId" element={<Home />} />
+          <Route path="/" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </>
