@@ -3,7 +3,7 @@ import { getMovies } from "../api";
 
 const useQueryMovies = (path: string) => {
   return useQuery({
-    queryKey: ["movies", "nowPlaying"],
+    queryKey: ["movies", path],
     queryFn: () => getMovies(path),
   });
 };

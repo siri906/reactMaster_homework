@@ -3,7 +3,7 @@ import useQueryMovies from "../service/query/useQueryMovies";
 import { MovieDataInfo } from "../types/movieType";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import ModalDetail from "./ModalDetail";
 
 type Props = {
   path: string;
@@ -40,26 +40,8 @@ const Title = styled.h4`
   font-weight: 700;
   margin-top: 10px;
 `;
-const Dimmed = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-`;
-const MovieDetail = styled(motion.div)`
-  position: fixed;
-  top: 5%;
-  left: 35%;
-  width: 450px;
-  height: 700px;
-  background-color: #fff;
-  border-radius: 20px;
-  z-index: 10;
-`;
 
-const makeImagePath = (id: string, format?: string) => `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
+export const makeImagePath = (id: string, format?: string) => `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
 const movieListContainerAni = {
   hide: {},
   show: {
@@ -76,17 +58,13 @@ const movieListItemAni = {
 
 export default function MovieList({ path }: Props) {
   const bigMovieMatch = useMatch(path !== "popular" ? `/${path}/:movieId` : `/:movieId`);
-  console.log(bigMovieMatch, "bigMovieMatch");
   const navigate = useNavigate();
-
   const { data, isLoading, isSuccess } = useQueryMovies(path);
   const moviesData: MovieDataInfo = isSuccess ? data : [];
   const movieItemClick = (movieId: number) => {
     navigate(path !== "popular" ? `/${path}/${movieId}` : `/${movieId}`);
   };
-  const onClickDimmed = () => {
-    navigate(path !== "popular" ? `/${path}` : `/`);
-  };
+
   return (
     <>
       {isLoading ? (
@@ -103,14 +81,7 @@ export default function MovieList({ path }: Props) {
               );
             })}
           </MovieListUl>
-          <AnimatePresence>
-            {bigMovieMatch !== null ? (
-              <>
-                <Dimmed onClick={onClickDimmed} animate={{ opacity: 1 }} exit={{ opacity: 0 }} />
-                <MovieDetail layoutId={bigMovieMatch?.params.movieId + ""}>test</MovieDetail>
-              </>
-            ) : null}
-          </AnimatePresence>
+          <AnimatePresence>{bigMovieMatch !== null ? <ModalDetail movieId={bigMovieMatch?.params.movieId + ""} path={path} /> : null}</AnimatePresence>
         </MovieListWrapper>
       )}
     </>
