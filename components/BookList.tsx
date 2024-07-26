@@ -2,55 +2,46 @@ import { getBookList } from "@/service/api";
 import { BookGroup, BookListInfo } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
+import BookTab from "./BookTab";
 
 interface Props {
   id: string;
+  rankNum?: string;
 }
 
-export default async function BookList({ id }: Props) {
+export default async function BookList({ id, rankNum = "1" }: Props) {
   const bookList: BookListInfo = await getBookList(id);
   const bookInfoList: BookGroup[] = bookList.results.books;
+  const viewBookInfo = bookInfoList[Number(rankNum) - 1];
+
   return (
     <div>
-      <div className="wrap_book w-full max-w-5xl my-0 mx-auto">
-        <div className="bx_book flex flex-wrap bg-orange-200 ">
+      <div className="wrap_book ">
+        <div className="bx_book flex w-full my-0 mx-auto max-w-3xl justify-between bg-orange-200 p-10 rounded-3xl mb-8">
           <div className="left_area">
-            <Link href={"/"}>
-              <Image src={""} width={300} height={500} alt="test" />
-              <span>위</span>
-            </Link>
+            <div>
+              {viewBookInfo.book_image ? <Image src={`${viewBookInfo.book_image}`} alt={`${viewBookInfo.title}`} width={viewBookInfo.book_image_width} height={viewBookInfo.book_image_height} /> : <div style={{ width: "300px", height: "500px" }}>no Image</div>}
+
+              <span>{viewBookInfo.rank} 위</span>
+            </div>
             <ul className="list_buy">
-              <li>
-                <Link href={"/"}>아마존</Link>
-              </li>
-              <li>
-                <Link href={"/"}>애플 북</Link>
-              </li>
-              <li>
-                <Link href={"/"}>북샵</Link>
-              </li>
+              {viewBookInfo.buy_links.slice(0, 3).map((buyLink, idx) => (
+                <li key={idx}>
+                  <Link href={`${buyLink.url}`}>{buyLink.name}</Link>
+                </li>
+              ))}
             </ul>
           </div>
-          <div className="right_area">
-            <p>카테고리 : </p>
-            <h2>제목</h2>
-            <h3> 저자 | 출판</h3>
+          <div className="right_area text-left">
+            <p>{bookList.results.display_name}</p>
+            <h2>{viewBookInfo.title}</h2>
+            <h3>
+              {viewBookInfo.author}
+              <br /> {viewBookInfo.contributor}
+            </h3>
           </div>
         </div>
-        <div className="tab_book">
-          <ul className="flex">
-            {bookInfoList.map((bookItem: BookGroup, idx: number) => {
-              return (
-                <li key={idx}>
-                  <Link href={""}>
-                    <Image src={`${bookItem.book_image}`} width={300} height={500} alt="test" />
-                    <p> 위</p>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <BookTab bookInfoList={bookInfoList} id={id} rankNum={rankNum} />
       </div>
     </div>
   );

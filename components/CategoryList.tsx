@@ -6,7 +6,7 @@ export default async function CategoryList() {
   const bookCategoryList: BookCategoryList = await getBookCategoryList();
 
   return (
-    <div className="my-0 mx-auto" style={{ width: "1024px" }}>
+    <div className="my-0 mx-auto max-w-screen-lg">
       <ul className="flex flex-wrap whitespace-nowrap">
         {bookCategoryList.results.map((categoryItem: BookCategoryListDetail, idx: number) => (
           <li key={idx} className="my-2">
