@@ -37,7 +37,7 @@ export interface BookListData {
   corrections: any[];
 }
 
-interface BookGroup {
+export interface BookGroup {
   rank: number;
   rank_last_week: number;
   weeks_on_list: number;
@@ -66,12 +66,12 @@ interface BookGroup {
   book_uri: string;
 }
 
-interface BookBuylink {
+export interface BookBuylink {
   name: string;
   url: string;
 }
 
-interface BookIsbn {
+export interface BookIsbn {
   isbn10: string;
   isbn13: string;
 }
