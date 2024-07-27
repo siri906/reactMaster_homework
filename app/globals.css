@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .bx_cont {
+    @apply flex max-w-3xl my-0 mx-auto justify-between p-10 bg-orange-200 rounded-3xl mb-10;
+  }
+  .cateList {
+    @apply flex flex-wrap whitespace-nowrap;
+  }
+}

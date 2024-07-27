@@ -1,9 +1,11 @@
 "use client";
 
 import { BookGroup } from "@/types/types";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import styled from "styled-components";
 
 interface Props {
   bookInfoList: BookGroup[];
@@ -11,23 +13,32 @@ interface Props {
   rankNum: string;
 }
 
+const TabBook = styled(motion.div)`
+  max-width: 1280px;
+  margin: 0 auto;
+`;
+const TabBookItem = styled(motion.li)``;
+
 export default function BookTab({ bookInfoList, id, rankNum }: Props) {
+  const router = useRouter();
+
+  const tabItemClick = (bookItem: BookGroup) => {
+    router.push(`/list/${id}/${bookItem.rank}`);
+  };
   return (
-    <div className="tab_book max-w-screen-xl my-0 mx-auto">
+    <TabBook>
       <ul className="flex gap-3">
-        {bookInfoList.map((bookItem: BookGroup, idx: number) => {
+        {bookInfoList?.map((bookItem: BookGroup, idx: number) => {
           return (
-            <li key={idx}>
-              <div className={Number(rankNum) === bookItem.rank ? " ring-4 ring-emerald-400" : ""}>
-                <Link href={`/list/${id}/${bookItem.rank}`}>
-                  <Image src={`${bookItem.book_image}`} priority={false} width={300} height={500} alt={bookItem.title} />
-                </Link>
+            <TabBookItem key={idx} layoutId={rankNum} className="hover:cursor-pointer hover:scale-110 hover:transition-transform">
+              <div className={Number(rankNum) === bookItem.rank ? " ring-4 ring-emerald-400" : ""} onClick={() => tabItemClick(bookItem)}>
+                <Image src={`${bookItem.book_image}`} priority={true} width={200} height={350} alt={bookItem.title} />
+                <p className="text-center">{bookItem.rank} 위</p>
               </div>
-              <p>{bookItem.rank} 위</p>
-            </li>
+            </TabBookItem>
           );
         })}
       </ul>
-    </div>
+    </TabBook>
   );
 }
