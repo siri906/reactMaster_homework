@@ -14,12 +14,10 @@ interface Props {
 }
 
 export default function BookList({ id, rankNum = "1", bookInfoList, viewBookInfo }: Props) {
-  // const bookMatch =
   return (
     <div>
       <div className="wrap_book ">
         <BookView viewBookInfo={viewBookInfo} rankNum={rankNum} />
-
         <BookTab bookInfoList={bookInfoList} id={id} rankNum={rankNum} />
       </div>
     </div>
