@@ -2,32 +2,145 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.medi .date_area li strong {
+  @apply text-3xl font-medium;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.medi .date_area li p {
+  @apply text-sm text-center mt-3;
+}
+
+.medi .date_area li {
+  @apply p-2;
+}
+
+.medi .date_area .active {
+  @apply bg-blue-400 rounded-2xl;
+}
+
+.medi .card_area {
+  @apply mt-24;
+}
+
+.medi .list_card li {
+  @apply relative bg-sky-400 rounded-xl h-60;
+}
+
+.medi .list_card li + li {
+  @apply mt-2;
+}
+
+.medi .list_card .active {
+  @apply after:content-['✔️'] after:absolute after:top-1/2 after:right-5 after:-mt-2;
+}
+
+.medi .card_info {
+  @apply flex flex-col justify-between  bg-teal-500 p-4  rounded-xl h-full;
+}
+.medi .card_info h3 {
+  @apply text-2xl font-medium leading-7;
+}
+.medi .card_info p {
+  @apply text-sm font-medium tracking-wide;
+}
+.medi .card_info span {
+  @apply font-medium;
+}
+.medi .active .card_info {
+  @apply relative z-10 w-10/12 bg-yellow-300;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @apply bg-red-100;
+}
+.cont {
+  @apply flex gap-2 justify-center;
+}
+.cont > div {
+  @apply max-w-80 w-full bg-white box-border h-3/5 py-10 px-4;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.circle_button {
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 1);
+  @apply flex items-center justify-center text-xl size-8 bg-white rounded-full border-2 border-black;
+}
+
+.first h2 {
+  @apply text-2xl font-semibold mb-4;
+}
+
+.first .list_weather li {
+  box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 1);
+  @apply flex w-full items-center justify-between p-4 bg-slate-50 rounded-xl border-2 border-black;
+}
+
+.first .list_weather li + li {
+  @apply mt-5;
+}
+
+.first .list_weather .right_area {
+  @apply flex items-center justify-center gap-2;
+}
+
+.first .list_weather .left_area strong {
+  @apply text-lg font-extrabold;
+}
+
+.first .list_weather .left_area p {
+  font-size: 0.7rem;
+  @apply font-semibold;
+}
+
+.first .list_weather span {
+  @apply inline-block size-12;
+}
+
+.first .list_weather svg {
+  @apply w-full;
+}
+
+.first .list_weather .right_area strong {
+  @apply text-4xl font-bold;
+}
+
+.first .list_weather .right_area strong:after {
+  content: "°";
+}
+
+.first .plus_area {
+  @apply flex justify-center mt-10;
+}
+
+.first .circle_button {
+  box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 1);
+  @apply size-12 text-3xl;
+}
+
+.second .title_area {
+  @apply text-center;
+}
+
+.second .title_area p {
+  @apply font-extrabold text-slate-600 text-sm tracking-wider mb-2;
+}
+
+.second .title_area strong {
+  @apply font-bold text-3xl;
+}
+
+.second .list_tag {
+  @apply flex flex-wrap gap-6 mt-6;
+}
+
+.second .list_tag li {
+  flex: 1 1 45%;
+  @apply rounded-2xl flex items-center py-14 border-black border-2;
+}
+
+.second .list_tag .bx_svg {
+  @apply size-10 my-0 mx-auto box-border;
+}
+
+.second .btn_area button {
+  @apply text-white bg-blue-700 w-full py-2 rounded-xl mt-8 font-semibold;
 }
