@@ -66,12 +66,12 @@ body {
 }
 
 .first h2 {
-  @apply text-2xl font-semibold mb-4;
+  @apply text-4xl font-semibold mb-10;
 }
 
 .first .list_weather li {
   box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 1);
-  @apply flex w-full items-center justify-between p-4 bg-slate-50 rounded-xl border-2 border-black;
+  @apply flex w-full items-center justify-between p-4 rounded-xl border-2 border-black;
 }
 
 .first .list_weather li + li {
@@ -112,7 +112,7 @@ body {
 }
 
 .first .circle_button {
-  box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 1);
   @apply size-12 text-3xl;
 }
 
@@ -142,5 +142,81 @@ body {
 }
 
 .second .btn_area button {
-  @apply text-white bg-blue-700 w-full py-2 rounded-xl mt-8 font-semibold;
+  @apply text-white bg-blue-700 w-full py-3 rounded-xl mt-6 font-semibold;
+}
+
+.cont .third {
+  @apply bg-yellow-500;
+}
+
+.third .t_area {
+  @apply relative mb-6;
+}
+
+.third .t_area button {
+  @apply absolute;
+}
+
+.third .t_area h2 {
+  @apply flex justify-center items-center text-2xl font-semibold;
+}
+
+.third .ipt_area {
+  @apply relative mb-4;
+}
+
+.third .ipt_area button {
+  @apply absolute size-6 right-2 top-1/4 z-10;
+}
+
+.third .ipt_area input {
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 1);
+  @apply w-full py-2 px-4 pr-10 rounded-2xl text-lg border-black border-2;
+}
+
+.third .ipt_area input::placeholder {
+  @apply text-black text-lg;
+}
+
+.third .list_user li {
+  @apply p-1 flex justify-between items-center bg-white rounded-2xl border-black border-2;
+}
+
+.third .list_user li + li {
+  @apply mt-4;
+}
+
+.third .list_user .left_area {
+  @apply flex items-center gap-1;
+}
+
+.third .list_user .bx_profile_img {
+  @apply inline-block size-16;
+}
+
+.third .bx_profile_info h3 {
+  @apply text-xl font-extrabold;
+}
+
+.third .bx_profile_info p {
+  @apply text-xs text-slate-500;
+}
+
+.third .btn_area button {
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 1);
+  @apply flex justify-center items-center bg-yellow-500 py-2 px-3 text-xs font-extrabold rounded-xl border-2 border-black mr-2;
+}
+
+.third .invited button {
+  box-shadow: none;
+  @apply bg-black text-white;
+}
+
+.blind {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
 }
