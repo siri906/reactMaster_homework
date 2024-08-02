@@ -150,7 +150,7 @@ body {
 }
 
 .third .t_area {
-  @apply relative mb-6;
+  @apply relative mb-4;
 }
 
 .third .t_area button {
@@ -162,7 +162,7 @@ body {
 }
 
 .third .ipt_area {
-  @apply relative mb-4;
+  @apply relative mb-6;
 }
 
 .third .ipt_area button {
@@ -183,7 +183,7 @@ body {
 }
 
 .third .list_user li + li {
-  @apply mt-4;
+  @apply mt-3;
 }
 
 .third .list_user .left_area {
